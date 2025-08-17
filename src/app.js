@@ -10,10 +10,8 @@ app.use(morgan("dev"))
 app.use(express.json())
 
 app.use(cors({
-  origin: "http://localhost:5173"
-}));
-app.use(cors({
-  origin: "greenlandpy.com"
+  origin: ["http://localhost:5173","greenlandpy.com"],
+  credentials: true
 }));
 
 app.get("/",(req,res)=>{
