@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rol       Rol      @default(USUARIO)
+  cliente Cliente?
+}
+
+model Cliente {
+  id Int @id @default(autoincrement())
+  nombre String
+  email String 
+  telefono String?
+  direccion String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relación con Usuario
+  usuarioId Int? @unique
+  usuario Usuario? @relation(fields: [usuarioId], references: [id])
+
+  // Relación con Lote
+   lotes Lote[]   @relation("ClienteLotes")
+}
+
+enum Rol {
+  ADMIN
+  USUARIO
+  VENDEDOR
+  COBRANZA
+  MODERADOR
+  CLIENTE
+}
+
+model Fraccionamiento {
+  id Int @id @default(autoincrement())
+  fraccion String
+  ubicacion String
+  
+
+}
+
+model Lote {
+  id Int @id @default(autoincrement())
+  fraccionamiento String 
+  distrito String
+  finca String
+  padron String
+  cuentaCatastral String?
+  manzana String
+  lote String
+  loteamiento String
+  superficie Float
+  precioTotal Float
+  modalidadPago String
+  cuotas Float?
+  montoCuota Float?
+  estadoVenta String
+  entregado Boolean @default(false)
+  amojonado Boolean @default(false)
+  limpio Boolean @default(false)
+  tieneConstruccion Boolean @default(false)
+  //Servicios disponibles
+  aguaPotable Boolean @default(false)
+  energiaElectrica Boolean @default(false)
+  calle Boolean @default(false)
+  seguridad Boolean @default(false)
+
+  beneficiosComunes String[]
+  requiereExpensas Boolean @default(false)
+  expensas Float?
+
+  restriccionConstrucion String[]
+
+  latitud Float?
+  longitud Float?
+
+  linderoNorteMedida Float?
+  linderoSurMedida Float? 
+  linderoEsteMedida Float? 
+  linderoOesteMedida Float? 
+
+  linderoNorteCon String?
+  linderoSurCon String? 
+  linderoEsteCon String? 
+  linderoOesteCon String? 
+  
+  linderoNorteCalle String?
+  linderoSurCalle String? 
+  linderoEsteCalle String? 
+  linderoOesteCalle String? 
+
+  imagenes String[]
+  compradorId Int?
+  comprador Cliente?  @relation("ClienteLotes", fields: [compradorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+
+}
