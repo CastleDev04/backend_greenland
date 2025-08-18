@@ -14,7 +14,7 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default":
 var app = (0, _express["default"])();
 app.use((0, _morgan["default"])("dev"));
 app.use(_express["default"].json());
-app.use((0, _cors["default"])({
+app.options("*", (0, _cors["default"])({
   origin: ["http://localhost:5173", "https://greenlandpy.com"],
   credentials: true
 }));
@@ -24,6 +24,6 @@ app.get("/", function (req, res) {
 app.use("/api/propiedades", _propiedadesRoutes["default"]);
 app.use("/api/auth", _authRoutes["default"]);
 app.get("/api/sistema", _authMiddleware["default"], function (req, res) {
-  res, json("Tienes un token de acceso");
+  res.json("Tienes un token de acceso");
 });
 var _default = exports["default"] = app;

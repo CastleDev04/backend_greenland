@@ -9,7 +9,7 @@ const app = express()
 app.use(morgan("dev"))
 app.use(express.json())
 
-app.use(cors({
+app.options("*", cors({
   origin: ["http://localhost:5173","https://greenlandpy.com"],
   credentials: true
 }));
@@ -22,7 +22,7 @@ app.use("/api/propiedades",propiedadesRoutes)
 app.use("/api/auth", authRoutes)
 
 app.get("/api/sistema", verificarToken, (req,res)=>{
-    res,json("Tienes un token de acceso")
+    res.json("Tienes un token de acceso")
 } )
 
 export default app
