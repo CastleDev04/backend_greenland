@@ -15,7 +15,7 @@ var app = (0, _express["default"])();
 app.use((0, _morgan["default"])("dev"));
 app.use(_express["default"].json());
 app.use((0, _cors["default"])({
-  origin: ["http://localhost:5173", "greenlandpy.com"],
+  origin: ["http://localhost:5173", "https://greenlandpy.com"],
   credentials: true
 }));
 app.get("/", function (req, res) {
