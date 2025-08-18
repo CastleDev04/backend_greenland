@@ -9,8 +9,8 @@ const app = express()
 app.use(morgan("dev"))
 app.use(express.json())
 
-app.options("*", cors({
-  origin: ["http://localhost:5173","https://greenlandpy.com"],
+app.use(cors({
+  origin: ["http://localhost:5173", "https://greenlandpy.com"],
   credentials: true
 }));
 
