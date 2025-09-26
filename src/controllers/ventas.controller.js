@@ -41,9 +41,14 @@ export const createVentas = async (req,res)=>{
     }
 }
 
-export const getVentas = async (req,res)=>{
+export const getVentas = async (req, res) => {
     try {
-        const ventas =  await prisma.venta.findMany();
+        const ventas = await prisma.venta.findMany({
+            include: {
+                cliente: true,    // ← Incluir datos del cliente
+                lote: true       // ← Incluir datos del lote
+            }
+        });
         res.status(200).json({
             message: "Ventas obtenidas con exito",
             ventas
@@ -54,11 +59,15 @@ export const getVentas = async (req,res)=>{
     }
 }
 
-export const getVentaById = async (req,res)=>{
+export const getVentaById = async (req, res) => {
     const {id} = req.params;
     try {
         const venta = await prisma.venta.findUnique({
-            where: { id: parseInt(id) }
+            where: { id: parseInt(id) },
+            include: {
+                cliente: true,    // ← Incluir datos del cliente
+                lote: true       // ← Incluir datos del lote
+            }
         });
         if (!venta) {
             return res.status(404).json({ message: "Venta no encontrada" });
@@ -72,7 +81,6 @@ export const getVentaById = async (req,res)=>{
         res.status(500).json({ message: "Error al obtener la venta" });
     }
 }
-
 export const updateVentaById = async (req,res)=>{
     const {id} = req.params;
     const{

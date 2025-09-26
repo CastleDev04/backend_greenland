@@ -86,8 +86,8 @@ export const getClienteById = async (req,res)=>{
     }
 }
 
-export const updateClienteById = async (req,res)=>{
-    const {id} = req.params;
+export const updateClienteById = async (req, res) => {
+    const { id } = req.params;
     const {
         nombre,
         apellido,
@@ -100,42 +100,69 @@ export const updateClienteById = async (req,res)=>{
         email,
         telefono,
         direccion
-    }= req.body;
+    } = req.body;
+
     // Validar que el ID sea un número válido
     if (isNaN(parseInt(id))) {
         return res.status(400).json({ message: "ID inválido" });
     }
+
+    // Validar campos obligatorios en la actualización
+    if (!nombre || !apellido || !cedula || !email) {
+        return res.status(400).json({ 
+            message: "Campos obligatorios faltantes: nombre, apellido, cedula, email" 
+        });
+    }
+
     try {
-        const data={
+        // Verificar si el cliente existe antes de actualizar
+        const clienteExistente = await prisma.cliente.findUnique({
+            where: { id: parseInt(id) }
+        });
+
+        if (!clienteExistente) {
+            return res.status(404).json({ message: "Cliente no encontrado" });
+        }
+
+        const data = {
             nombre,
             apellido,
             cedula,
-            ruc,
-            estadoCivil,
-            profesion,
-            nacionalidad,
-            fechaNacimiento,
+            ruc: ruc || null,
+            estadoCivil: estadoCivil || null,
+            profesion: profesion || null,
+            nacionalidad: nacionalidad || null,
+            fechaNacimiento: fechaNacimiento ? new Date(fechaNacimiento) : null,
             email,
-            telefono,
-            direccion
+            telefono: telefono || null,
+            direccion: direccion || null
         }
 
         const cliente = await prisma.cliente.update({
-            where:{
-                id: parseInt(id)
-            },
+            where: { id: parseInt(id) },
             data
         });
 
         return res.status(200).json({
-            message: "Cliente actualizado con exito",
+            message: "Cliente actualizado con éxito",
             cliente
-        })
+        });
     } catch (error) {
-        console.error(error);
+        console.error("Error en updateClienteById:", error);
+        
+        // Manejar errores específicos
+        if (error.code === 'P2025') {
+            return res.status(404).json({ message: "Cliente no encontrado" });
+        }
+        
+        if (error.code === 'P2002') {
+            return res.status(400).json({ 
+                message: "La cédula o email ya existen en el sistema" 
+            });
+        }
+        
         res.status(500).json({ message: "Error al actualizar el cliente" });
     }
-
 }
 
 export const deleteClienteById = async (req,res)=>{

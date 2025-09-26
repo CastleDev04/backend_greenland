@@ -72,7 +72,13 @@ var getVentas = exports.getVentas = /*#__PURE__*/function () {
         case 0:
           _context2.p = 0;
           _context2.n = 1;
-          return _db["default"].venta.findMany();
+          return _db["default"].venta.findMany({
+            include: {
+              cliente: true,
+              // ← Incluir datos del cliente
+              lote: true // ← Incluir datos del lote
+            }
+          });
         case 1:
           ventas = _context2.v;
           res.status(200).json({
@@ -109,6 +115,11 @@ var getVentaById = exports.getVentaById = /*#__PURE__*/function () {
           return _db["default"].venta.findUnique({
             where: {
               id: parseInt(id)
+            },
+            include: {
+              cliente: true,
+              // ← Incluir datos del cliente
+              lote: true // ← Incluir datos del lote
             }
           });
         case 2:

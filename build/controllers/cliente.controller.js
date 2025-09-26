@@ -154,7 +154,7 @@ var getClienteById = exports.getClienteById = /*#__PURE__*/function () {
 }();
 var updateClienteById = exports.updateClienteById = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(req, res) {
-    var id, _req$body2, nombre, apellido, cedula, ruc, estadoCivil, profesion, nacionalidad, fechaNacimiento, email, telefono, direccion, data, cliente, _t4;
+    var id, _req$body2, nombre, apellido, cedula, ruc, estadoCivil, profesion, nacionalidad, fechaNacimiento, email, telefono, direccion, clienteExistente, data, cliente, _t4;
     return _regenerator().w(function (_context4) {
       while (1) switch (_context4.p = _context4.n) {
         case 0:
@@ -168,44 +168,86 @@ var updateClienteById = exports.updateClienteById = /*#__PURE__*/function () {
             message: "ID inválido"
           }));
         case 1:
-          _context4.p = 1;
+          if (!(!nombre || !apellido || !cedula || !email)) {
+            _context4.n = 2;
+            break;
+          }
+          return _context4.a(2, res.status(400).json({
+            message: "Campos obligatorios faltantes: nombre, apellido, cedula, email"
+          }));
+        case 2:
+          _context4.p = 2;
+          _context4.n = 3;
+          return _db["default"].cliente.findUnique({
+            where: {
+              id: parseInt(id)
+            }
+          });
+        case 3:
+          clienteExistente = _context4.v;
+          if (clienteExistente) {
+            _context4.n = 4;
+            break;
+          }
+          return _context4.a(2, res.status(404).json({
+            message: "Cliente no encontrado"
+          }));
+        case 4:
           data = {
             nombre: nombre,
             apellido: apellido,
             cedula: cedula,
-            ruc: ruc,
-            estadoCivil: estadoCivil,
-            profesion: profesion,
-            nacionalidad: nacionalidad,
-            fechaNacimiento: fechaNacimiento,
+            ruc: ruc || null,
+            estadoCivil: estadoCivil || null,
+            profesion: profesion || null,
+            nacionalidad: nacionalidad || null,
+            fechaNacimiento: fechaNacimiento ? new Date(fechaNacimiento) : null,
             email: email,
-            telefono: telefono,
-            direccion: direccion
+            telefono: telefono || null,
+            direccion: direccion || null
           };
-          _context4.n = 2;
+          _context4.n = 5;
           return _db["default"].cliente.update({
             where: {
               id: parseInt(id)
             },
             data: data
           });
-        case 2:
+        case 5:
           cliente = _context4.v;
           return _context4.a(2, res.status(200).json({
-            message: "Cliente actualizado con exito",
+            message: "Cliente actualizado con éxito",
             cliente: cliente
           }));
-        case 3:
-          _context4.p = 3;
+        case 6:
+          _context4.p = 6;
           _t4 = _context4.v;
-          console.error(_t4);
+          console.error("Error en updateClienteById:", _t4);
+
+          // Manejar errores específicos
+          if (!(_t4.code === 'P2025')) {
+            _context4.n = 7;
+            break;
+          }
+          return _context4.a(2, res.status(404).json({
+            message: "Cliente no encontrado"
+          }));
+        case 7:
+          if (!(_t4.code === 'P2002')) {
+            _context4.n = 8;
+            break;
+          }
+          return _context4.a(2, res.status(400).json({
+            message: "La cédula o email ya existen en el sistema"
+          }));
+        case 8:
           res.status(500).json({
             message: "Error al actualizar el cliente"
           });
-        case 4:
+        case 9:
           return _context4.a(2);
       }
-    }, _callee4, null, [[1, 3]]);
+    }, _callee4, null, [[2, 6]]);
   }));
   return function updateClienteById(_x7, _x8) {
     return _ref4.apply(this, arguments);
