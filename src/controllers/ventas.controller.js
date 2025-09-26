@@ -30,7 +30,7 @@ export const createVentas = async (req,res)=>{
             loteId
         }
 
-        const newVenta = await prisma.venta.create(data);
+        const newVenta = await prisma.venta.create({data});
         res.status(201).json({
             message: "Venta creada exitosamente",
             newVenta
