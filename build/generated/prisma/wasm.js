@@ -124,6 +124,13 @@ exports.Prisma.UsuarioScalarFieldEnum = {
 exports.Prisma.ClienteScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
+  apellido: 'apellido',
+  cedula: 'cedula',
+  ruc: 'ruc',
+  estadoCivil: 'estadoCivil',
+  profesion: 'profesion',
+  nacionalidad: 'nacionalidad',
+  fechaNacimiento: 'fechaNacimiento',
   email: 'email',
   telefono: 'telefono',
   direccion: 'direccion',
@@ -178,8 +185,36 @@ exports.Prisma.LoteScalarFieldEnum = {
   linderoSurCalle: 'linderoSurCalle',
   linderoEsteCalle: 'linderoEsteCalle',
   linderoOesteCalle: 'linderoOesteCalle',
+  observacion: 'observacion',
   imagenes: 'imagenes',
   compradorId: 'compradorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+exports.Prisma.VentaScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  montoTotal: 'montoTotal',
+  estado: 'estado',
+  tipoPago: 'tipoPago',
+  cantidadCuotas: 'cantidadCuotas',
+  montoCuota: 'montoCuota',
+  cuotasPagadas: 'cuotasPagadas',
+  clienteId: 'clienteId',
+  loteId: 'loteId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+exports.Prisma.PagoScalarFieldEnum = {
+  id: 'id',
+  fechaEsperada: 'fechaEsperada',
+  fechaPago: 'fechaPago',
+  monto: 'monto',
+  mora: 'mora',
+  totalPagado: 'totalPagado',
+  metodoPago: 'metodoPago',
+  estado: 'estado',
+  ventaId: 'ventaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -207,7 +242,9 @@ exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Cliente: 'Cliente',
   Fraccionamiento: 'Fraccionamiento',
-  Lote: 'Lote'
+  Lote: 'Lote',
+  Venta: 'Venta',
+  Pago: 'Pago'
 };
 
 /**

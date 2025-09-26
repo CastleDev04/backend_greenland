@@ -9,6 +9,8 @@ var _morgan = _interopRequireDefault(require("morgan"));
 var _authRoutes = _interopRequireDefault(require("./routes/auth.routes.js"));
 var _authMiddleware = _interopRequireDefault(require("./middlewares/auth.middleware.js"));
 var _propiedadesRoutes = _interopRequireDefault(require("./routes/propiedades.routes.js"));
+var _clientesRoutes = _interopRequireDefault(require("./routes/clientes.routes.js"));
+var _ventasRoutes = _interopRequireDefault(require("./routes/ventas.routes.js"));
 var _cors = _interopRequireDefault(require("cors"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var app = (0, _express["default"])();
@@ -22,6 +24,8 @@ app.get("/", function (req, res) {
   res.json("Bienvenido");
 });
 app.use("/api/propiedades", _propiedadesRoutes["default"]);
+app.use("/api/clientes", _clientesRoutes["default"]);
+app.use("/api/ventas", _ventasRoutes["default"]);
 app.use("/api/auth", _authRoutes["default"]);
 app.get("/api/sistema", _authMiddleware["default"], function (req, res) {
   res.json("Tienes un token de acceso");
