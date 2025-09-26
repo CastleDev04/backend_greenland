@@ -36,7 +36,7 @@ export const createClientes = async (req, res) =>{
             direccion
         }
 
-        const newCliente = await prisma.cliente.create(data);
+        const newCliente = await prisma.cliente.create({data});
         res.status(201).json({
             message: "Cliente creado exitosamente", 
             newCliente
