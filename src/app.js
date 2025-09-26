@@ -3,6 +3,8 @@ import morgan from "morgan"
 import authRoutes from "./routes/auth.routes.js"
 import verificarToken from "./middlewares/auth.middleware.js"
 import propiedadesRoutes from "./routes/propiedades.routes.js"
+import clientesRoutes from "./routes/clientes.routes.js"
+import ventasRoutes from "./routes/ventas.routes.js"
 import cors from "cors"
 const app = express()
 
@@ -19,6 +21,8 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/api/propiedades",propiedadesRoutes)
+app.use("/api/clientes",clientesRoutes)
+app.use("/api/ventas",ventasRoutes)
 app.use("/api/auth", authRoutes)
 
 app.get("/api/sistema", verificarToken, (req,res)=>{

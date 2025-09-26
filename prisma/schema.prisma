@@ -23,9 +23,18 @@ model Usuario {
 model Cliente {
   id Int @id @default(autoincrement())
   nombre String
-  email String 
+  apellido String
+  cedula String @unique
+  ruc String?
+  estadoCivil String?
+  profesion String?
+  nacionalidad String?
+  fechaNacimiento DateTime?
+
+  email String @unique
   telefono String?
   direccion String?
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -35,6 +44,8 @@ model Cliente {
 
   // Relación con Lote
    lotes Lote[]   @relation("ClienteLotes")
+
+   ventas Venta[] // Relación agregada
 }
 
 enum Rol {
@@ -102,15 +113,63 @@ model Lote {
   linderoNorteCalle String?
   linderoSurCalle String? 
   linderoEsteCalle String? 
-  linderoOesteCalle String? 
+  linderoOesteCalle String?
+
+  observacion String? 
 
   imagenes String[]
+  // Relación con Cliente
   compradorId Int?
-  comprador Cliente?  @relation("ClienteLotes", fields: [compradorId], references: [id])
+  comprador   Cliente? @relation("ClienteLotes", fields: [compradorId], references: [id])
+
+  
+  // Relación con Ventas
+  ventas Venta[] // Relación agregada
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
 
 
+}
+
+model Venta {
+  id            Int       @id @default(autoincrement())
+  fecha         DateTime  @default(now())
+  montoTotal    Float
+  estado        String    @default("Activa") // Activa, Cancelada, Finalizada
+  tipoPago      String    // "Contado" | "Credito"
+  cantidadCuotas Int?     // Solo si es crédito
+  montoCuota    Float?
+  cuotasPagadas Int    // Solo si es crédito
+
+  // Relaciones
+  clienteId     Int
+  cliente       Cliente   @relation(fields: [clienteId], references: [id])
+
+  loteId   Int
+  lote     Lote @relation(fields: [loteId], references: [id])
+
+  pagos         Pago[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pago {
+  id            Int       @id @default(autoincrement())
+  fechaEsperada DateTime
+  fechaPago     DateTime?
+  monto         Float
+  mora          Float?    // Interés por mora
+  totalPagado   Float?
+  metodoPago    String
+  estado        String    @default("Pendiente")
+
+  // Relación
+  ventaId Int
+  venta   Venta @relation(fields: [ventaId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

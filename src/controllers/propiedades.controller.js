@@ -46,6 +46,7 @@ export const createPropiedades = async (req, res) =>{
   linderoSurCalle,
   linderoEsteCalle,
   linderoOesteCalle,
+  observacion,
 
   // Relación con cliente
   compradorId
@@ -101,6 +102,7 @@ try {
             linderoSurCalle,
             linderoEsteCalle,
             linderoOesteCalle,
+            observacion
         };
 
         // Conectar con comprador si se proporciona
@@ -212,6 +214,7 @@ export const updatePropiedadById =async (req, res) =>{
   linderoSurCalle,
   linderoEsteCalle,
   linderoOesteCalle,
+  observacion,
 
   // Relación con cliente
   compradorId
@@ -265,6 +268,7 @@ export const updatePropiedadById =async (req, res) =>{
             linderoSurCalle,
             linderoEsteCalle,
             linderoOesteCalle,
+            observacion,
         };
 
         // Manejar relación con comprador
