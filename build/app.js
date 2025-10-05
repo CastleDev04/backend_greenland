@@ -23,6 +23,9 @@ app.use((0, _cors["default"])({
 app.get("/", function (req, res) {
   res.json("Bienvenido");
 });
+app.get("/heat", function (req, res) {
+  res.json("Servidor funcionando correctamente");
+});
 app.use("/api/propiedades", _propiedadesRoutes["default"]);
 app.use("/api/clientes", _clientesRoutes["default"]);
 app.use("/api/ventas", _ventasRoutes["default"]);

@@ -20,6 +20,10 @@ app.get("/",(req,res)=>{
     res.json("Bienvenido")
 })
 
+app.get("/heat",(req,res)=>{
+    res.json("Servidor funcionando correctamente")
+})
+
 app.use("/api/propiedades",propiedadesRoutes)
 app.use("/api/clientes",clientesRoutes)
 app.use("/api/ventas",ventasRoutes)
